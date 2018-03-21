@@ -1,4 +1,4 @@
-package com.mittas.taskmanager.ui;
+package com.mittas.taskmanager;
 
 import android.content.Context;
 import android.support.v4.view.ViewPager;
