@@ -1,4 +1,4 @@
-package com.mittas.taskmanager;
+package com.mittas.taskmanager.data;
 
 /**
  * Created by John on 21-Mar-18.

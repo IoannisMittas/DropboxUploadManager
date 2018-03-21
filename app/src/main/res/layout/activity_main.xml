@@ -48,7 +48,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-    <com.mittas.taskmanager.NonSwipeableViewPager
+    <com.mittas.taskmanager.ui.NonSwipeableViewPager
         android:id="@+id/view_pager"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
