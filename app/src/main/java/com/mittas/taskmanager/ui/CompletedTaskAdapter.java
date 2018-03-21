@@ -30,7 +30,8 @@ class CompletedTaskAdapter extends RecyclerView.Adapter<CompletedTaskAdapter.Vie
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         Task task = taskList.get(position);
-        holder.nameTextView.setText(task.getPersonName());
+        holder.nameTextView.setText(task.getName());
+        //TODO convert millis to nice format
         holder.timeTextView.setText(task.getBorrowDate().toLocaleString().substring(0, 11));
         holder.itemView.setTag(task);
         holder.itemView.setOnLongClickListener(longClickListener);

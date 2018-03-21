@@ -12,6 +12,7 @@ import java.util.Date;
 @Entity
 public class Task {
 
+
     @PrimaryKey(autoGenerate = true)
     public int id;
 
@@ -23,7 +24,9 @@ public class Task {
 
     private int time;
 
-    private String status;
+    private int status;
+    private final static int PENDING = 0;
+    private final static int COMPLETED = 1;
 
     public Task(String name, String description, String fileName) {
         this.name = name;
@@ -47,7 +50,7 @@ public class Task {
         return time;
     }
 
-    public String getStatus() {
+    public int getStatus() {
         return status;
     }
 }

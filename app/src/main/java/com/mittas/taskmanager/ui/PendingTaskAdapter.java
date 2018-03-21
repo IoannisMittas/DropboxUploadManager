@@ -34,7 +34,7 @@ public class PendingTaskAdapter extends RecyclerView.Adapter<PendingTaskAdapter.
     @Override
     public void onBindViewHolder(final PendingTaskAdapter.ViewHolder holder, int position) {
         Task task = taskList.get(position);
-        holder.nameTextView.setText(task.getPersonName());
+        holder.nameTextView.setText(task.getName());
         holder.itemView.setTag(task);
         holder.itemView.setOnLongClickListener(longClickListener);
     }
