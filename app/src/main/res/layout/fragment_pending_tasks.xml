@@ -2,11 +2,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.mittas.taskmanager.ui.CompletedFragment">
+    tools:context="com.mittas.taskmanager.ui.CompletedTasksFragment">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Psolara" />
+        android:text="Mounara" />
 
 </FrameLayout>

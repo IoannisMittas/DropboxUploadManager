@@ -2,7 +2,6 @@ package com.mittas.taskmanager.ui;
 
 import android.support.design.widget.TabLayout;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 
 import android.support.v4.app.Fragment;
@@ -42,8 +41,7 @@ public class MainActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+               // TODO open screen 2
             }
         });
     }
@@ -57,11 +55,11 @@ public class MainActivity extends AppCompatActivity {
         public Fragment getItem(int position) {
             // getItem is called to instantiate the fragment for the given page.
             if(position == 0) {
-               PendingFragment pendingFragment = new PendingFragment();
-               return pendingFragment;
+               PendingTasksFragment pendingTasksFragment = new PendingTasksFragment();
+               return pendingTasksFragment;
             } else {
-                CompletedFragment completedFragment = new CompletedFragment();
-                return completedFragment;
+                CompletedTasksFragment completedTasksFragment = new CompletedTasksFragment();
+                return completedTasksFragment;
             }
         }
 
