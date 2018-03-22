@@ -1,7 +1,6 @@
 package com.mittas.taskmanager.ui.completed;
 
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,21 +10,24 @@ import com.mittas.taskmanager.R;
 import com.mittas.taskmanager.data.Task;
 import com.mittas.taskmanager.ui.gestures.ItemTouchHelperAdapter;
 
+
 import java.util.List;
 
 class CompletedTaskAdapter extends RecyclerView.Adapter<CompletedTaskAdapter.ViewHolder> implements ItemTouchHelperAdapter {
 
     private List<Task> taskList;
+    private CompletedTaskAdapter.AdapterCallback adapterCallback;
     private View.OnLongClickListener longClickListener;
 
-      /*  public CompletedTaskAdapter(List<Task> taskList, View.OnLongClickListener longClickListener) {
-        this.taskList = taskList;
-        this.longClickListener = longClickListener;
-    }*/
+    // Used to communicate with fragment
+    public interface AdapterCallback {
+        void onSwipeTaskCallback(Task task, int direction);
+    }
 
-    // TODO temp
-    public CompletedTaskAdapter(List<Task> taskList) {
+    public CompletedTaskAdapter(List<Task> taskList, CompletedTaskAdapter.AdapterCallback callback, View.OnLongClickListener longClickListener ) {
         this.taskList = taskList;
+        this.adapterCallback = callback;
+        this.longClickListener = longClickListener;
     }
 
     @Override
@@ -62,7 +64,9 @@ class CompletedTaskAdapter extends RecyclerView.Adapter<CompletedTaskAdapter.Vie
     // Called on swiping
     @Override
     public void onItemDismiss(int position, int direction) {
-        // TODO set status pending
+        Task task = taskList.get(position);
+
+        adapterCallback.onSwipeTaskCallback(task, direction);
 
         notifyItemRemoved(position);
 

@@ -1,7 +1,6 @@
 package com.mittas.taskmanager.ui.pending;
 
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,23 +12,22 @@ import com.mittas.taskmanager.ui.gestures.ItemTouchHelperAdapter;
 
 import java.util.List;
 
-/**
- * Created by John on 22-Mar-18.
- */
-
 public class PendingTaskAdapter extends RecyclerView.Adapter<PendingTaskAdapter.ViewHolder> implements ItemTouchHelperAdapter {
 
     private List<Task> taskList;
+    private AdapterCallback adapterCallback;
     private View.OnLongClickListener longClickListener;
 
-   /* public PendingTaskAdapter(List<Task> taskList, View.OnLongClickListener longClickListener) {
-        this.taskList = taskList;
-        this.longClickListener = longClickListener;
-    }*/
+    // Used to communicate with fragment
+    public interface AdapterCallback {
+        void onSwipeTaskCallback(Task task, int direction);
+    }
 
-   // TODO temp
-    public PendingTaskAdapter(List<Task> taskList) {
+
+    public PendingTaskAdapter(List<Task> taskList, AdapterCallback callback,View.OnLongClickListener longClickListener ) {
         this.taskList = taskList;
+        this.adapterCallback = callback;
+        this.longClickListener = longClickListener;
     }
 
     @Override
@@ -64,16 +62,11 @@ public class PendingTaskAdapter extends RecyclerView.Adapter<PendingTaskAdapter.
     // Called on swiping
     @Override
     public void onItemDismiss(int position, int direction) {
-        if(direction == ItemTouchHelper.LEFT) {
-            // TODO postpone task for 1 minute
-        } else if(direction == ItemTouchHelper.RIGHT) {
-            // TODO start task immediately
-        }
+        Task task = taskList.get(position);
 
-        // TODO set status as UPLOADING
+        adapterCallback.onSwipeTaskCallback(task, direction);
 
         notifyItemRemoved(position);
-
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {

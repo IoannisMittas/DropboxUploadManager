@@ -28,6 +28,8 @@ public class Task {
     @Ignore
     public static final String pending = "PENDING";
     @Ignore
+    public static final String uploading = "UPLOADING";
+    @Ignore
     public static final String completed = "COMPLETED";
 
     public Task(String name, String description, String filePath, String status) {

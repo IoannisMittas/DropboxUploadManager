@@ -20,16 +20,18 @@ import com.mittas.taskmanager.ui.gestures.SimpleItemTouchHelperCallback;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PendingTasksFragment extends Fragment {
+public class PendingTasksFragment extends Fragment implements PendingTaskAdapter.AdapterCallback, View.OnLongClickListener  {
     private PendingTaskViewModel viewModel;
     private PendingTaskAdapter adapter;
     private RecyclerView recyclerView;
 
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-    }
 
+        viewModel = ViewModelProviders.of(this).get(PendingTaskViewModel.class);
+    }
 
     @Nullable
     @Override
@@ -45,16 +47,13 @@ public class PendingTasksFragment extends Fragment {
                 layoutManager.getOrientation());
         recyclerView.addItemDecoration(dividerItemDecoration);
 
-        // TODO temp
-        adapter = new PendingTaskAdapter(new ArrayList<Task>());
+        adapter = new PendingTaskAdapter(new ArrayList<Task>(), this, this);
         recyclerView.setAdapter(adapter);
 
         ItemTouchHelper.Callback callback =
                 new SimpleItemTouchHelperCallback(adapter);
         ItemTouchHelper touchHelper = new ItemTouchHelper(callback);
         touchHelper.attachToRecyclerView(recyclerView);
-
-        viewModel = ViewModelProviders.of(this).get(PendingTaskViewModel.class);
 
         viewModel.getPendingTasks().observe(this, new Observer<List<Task>>() {
             @Override
@@ -64,6 +63,26 @@ public class PendingTasksFragment extends Fragment {
         });
 
         return rootView;
+    }
+
+    @Override
+    public void onSwipeTaskCallback(Task task, int direction) {
+        if(direction == ItemTouchHelper.LEFT) {
+            // TODO postpone task for 1 minute
+
+        } else if(direction == ItemTouchHelper.RIGHT) {
+            // TODO start task immediately
+        }
+
+        task.setStatus(Task.uploading);
+        viewModel.updateTasks(task);
+    }
+
+    @Override
+    public boolean onLongClick(View v) {
+        Task task = (Task) v.getTag();
+       // TODO open edit screen
+        return true;
     }
 
 }
