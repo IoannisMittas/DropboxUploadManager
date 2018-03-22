@@ -37,4 +37,15 @@ dependencies {
 
     // RecyclerView
     implementation 'com.android.support:recyclerview-v7:27.1.0'
+
+    // Cloud API
+    compile 'com.cloudrail:cloudrail-si-android:2.17.1'
+
+    // Material File Picker
+    repositories {
+        maven {
+            url  "http://dl.bintray.com/lukaville/maven"
+        }
+    }
+    compile 'com.nbsp:library:1.8'
 }
