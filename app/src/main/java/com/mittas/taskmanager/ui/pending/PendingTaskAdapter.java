@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import com.mittas.taskmanager.R;
 import com.mittas.taskmanager.data.Task;
+import com.mittas.taskmanager.ui.gestures.ItemTouchHelperAdapter;
 
 import java.util.List;
 
@@ -15,7 +16,7 @@ import java.util.List;
  * Created by John on 22-Mar-18.
  */
 
-public class PendingTaskAdapter extends RecyclerView.Adapter<PendingTaskAdapter.ViewHolder> {
+public class PendingTaskAdapter extends RecyclerView.Adapter<PendingTaskAdapter.ViewHolder> implements ItemTouchHelperAdapter {
 
     private List<Task> taskList;
     private View.OnLongClickListener longClickListener;
@@ -52,6 +53,17 @@ public class PendingTaskAdapter extends RecyclerView.Adapter<PendingTaskAdapter.
     public void setTasks(List<Task> taskList) {
         this.taskList = taskList;
         notifyDataSetChanged();
+    }
+
+    @Override
+    public void onItemMove(int fromPosition, int toPosition) {
+
+    }
+
+    // Called on swiping
+    @Override
+    public void onItemDismiss(int position) {
+
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {

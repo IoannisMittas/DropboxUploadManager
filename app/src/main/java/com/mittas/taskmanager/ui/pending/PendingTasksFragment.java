@@ -7,12 +7,14 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.mittas.taskmanager.R;
 import com.mittas.taskmanager.data.Task;
+import com.mittas.taskmanager.ui.gestures.SimpleItemTouchHelperCallback;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,6 +42,11 @@ public class PendingTasksFragment extends Fragment {
         adapter = new PendingTaskAdapter(new ArrayList<Task>());
 
         recyclerView.setAdapter(adapter);
+
+        ItemTouchHelper.Callback callback =
+                new SimpleItemTouchHelperCallback(adapter);
+        ItemTouchHelper touchHelper = new ItemTouchHelper(callback);
+        touchHelper.attachToRecyclerView(recyclerView);
 
         viewModel = ViewModelProviders.of(this).get(PendingTaskViewModel.class);
 
