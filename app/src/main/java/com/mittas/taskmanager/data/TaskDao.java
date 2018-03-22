@@ -14,11 +14,23 @@ import static android.arch.persistence.room.OnConflictStrategy.REPLACE;
 @Dao
 public interface TaskDao {
 
-    @Query("select * from BorrowModel")
-    LiveData<List<BorrowModel>> getAllBorrowedItems();
+    @Query("SELECT * FROM Task")
+    LiveData<List<Task>> getAllTasks();
 
-    @Query("select * from BorrowModel where id = :id")
-    BorrowModel getItembyId(String id);
+    @Query("SELECT * FROM Task WHERE id = :id")
+    LiveData<List<Task>> getTaskById(int id);
+
+    @Query("SELECT * FROM Task WHERE status = Task.PENDING")
+    LiveData<List<Task>> getPendingTasks();
+
+    // TODO query for filepath
+
+    // TODO query for time
+
+
+
+    @Query("SELECT * FROM Task WHERE status = Task.COMPLETED")
+    LiveData<List<Task>> getCompletedTasks();
 
     @Insert(onConflict = REPLACE)
     void addTask(Task task);
