@@ -1,4 +1,4 @@
-package com.mittas.taskmanager.ui;
+package com.mittas.taskmanager.ui.completed;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 
 import com.mittas.taskmanager.R;
 
-public class PendingTasksFragment extends Fragment {
+public class CompletedTasksFragment extends Fragment {
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -19,9 +19,14 @@ public class PendingTasksFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_pending_tasks, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_completed_tasks, container, false);
 
         return rootView;
     }
+
+
+
+
+
 
 }

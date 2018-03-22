@@ -1,4 +1,4 @@
-package com.mittas.taskmanager.ui;
+package com.mittas.taskmanager.ui.completed;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -11,30 +11,28 @@ import com.mittas.taskmanager.data.Task;
 
 import java.util.List;
 
-/**
- * Created by John on 22-Mar-18.
- */
-
-public class PendingTaskAdapter extends RecyclerView.Adapter<PendingTaskAdapter.ViewHolder> {
+class CompletedTaskAdapter extends RecyclerView.Adapter<CompletedTaskAdapter.ViewHolder> {
 
     private List<Task> taskList;
     private View.OnLongClickListener longClickListener;
 
-    public PendingTaskAdapter(List<Task> taskList, View.OnLongClickListener longClickListener) {
+    public CompletedTaskAdapter(List<Task> taskList, View.OnLongClickListener longClickListener) {
         this.taskList = taskList;
         this.longClickListener = longClickListener;
     }
 
     @Override
-    public PendingTaskAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new PendingTaskAdapter.ViewHolder(LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.pending_task_item, parent, false));
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        return new ViewHolder(LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.completed_task_item, parent, false));
     }
 
     @Override
-    public void onBindViewHolder(final PendingTaskAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(final ViewHolder holder, int position) {
         Task task = taskList.get(position);
         holder.nameTextView.setText(task.getName());
+        //TODO convert millis to nice format
+        holder.timeTextView.setText(task.getBorrowDate().toLocaleString().substring(0, 11));
         holder.itemView.setTag(task);
         holder.itemView.setOnLongClickListener(longClickListener);
     }
@@ -51,17 +49,12 @@ public class PendingTaskAdapter extends RecyclerView.Adapter<PendingTaskAdapter.
 
     static class ViewHolder extends RecyclerView.ViewHolder {
         private TextView nameTextView;
+        private TextView timeTextView;
 
         ViewHolder(View view) {
             super(view);
             nameTextView = view.findViewById(R.id.name_textview);
+            timeTextView = view.findViewById(R.id.time_textview);
         }
     }
-
-
-
-
-
-
-
 }

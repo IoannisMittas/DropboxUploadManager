@@ -3,8 +3,6 @@ package com.mittas.taskmanager.data;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
 
-import java.util.Date;
-
 /**
  * Created by John on 21-Mar-18.
  */
@@ -20,7 +18,7 @@ public class Task {
 
     private String description;
 
-    private String fileName;
+    private String filePath;
 
     private int time;
 
@@ -28,10 +26,10 @@ public class Task {
     private final static int PENDING = 0;
     private final static int COMPLETED = 1;
 
-    public Task(String name, String description, String fileName) {
+    public Task(String name, String description, String filePath) {
         this.name = name;
         this.description = description;
-        this.fileName = fileName;
+        this.filePath = filePath;
     }
 
     public String getName() {
@@ -42,8 +40,8 @@ public class Task {
         return description;
     }
 
-    public String getFileName() {
-        return fileName;
+    public String getFilePath() {
+        return filePath;
     }
 
     public int getTime() {
