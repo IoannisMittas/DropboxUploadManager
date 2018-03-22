@@ -47,7 +47,6 @@ public class CompletedTasksFragment extends Fragment implements CompletedTaskAda
                 layoutManager.getOrientation());
         recyclerView.addItemDecoration(dividerItemDecoration);
 
-        // TODO temp
         adapter = new CompletedTaskAdapter(new ArrayList<Task>(), this, this);
         recyclerView.setAdapter(adapter);
 
@@ -68,21 +67,8 @@ public class CompletedTasksFragment extends Fragment implements CompletedTaskAda
 
     @Override
     public void onSwipeTaskCallback(Task task, int direction) {
-        // TODO set status pending
-        task.setStatus(Task.uploading);
+        task.setStatus(Task.pending);
         viewModel.updateTasks(task);
-
-        //        if(direction == ItemTouchHelper.LEFT) {
-//            // TODO postpone task for 1 minute
-//
-//        } else if(direction == ItemTouchHelper.RIGHT) {
-//            // TODO start task immediately
-//        }
-//
-//        task.setStatus(Task.uploading);
-//        viewModel.updateTasks(task);
-
-
     }
 
     @Override
