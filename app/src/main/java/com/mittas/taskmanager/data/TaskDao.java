@@ -26,6 +26,8 @@ public interface TaskDao {
     @Query("SELECT * FROM Task WHERE status = 'Task.COMPLETED'")
     LiveData<List<Task>> getCompletedTasks();
 
+    // TODO fix above queries
+
     // TODO query for filepath
 
     // TODO query for time

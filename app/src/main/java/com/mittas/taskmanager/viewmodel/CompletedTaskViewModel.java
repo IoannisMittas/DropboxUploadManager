@@ -1,4 +1,4 @@
-package com.mittas.taskmanager.ui.completed;
+package com.mittas.taskmanager.viewmodel;
 
 import android.app.Application;
 import android.arch.lifecycle.AndroidViewModel;

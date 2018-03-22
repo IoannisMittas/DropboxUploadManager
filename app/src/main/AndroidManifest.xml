@@ -19,7 +19,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.AddTaskActivity"
+            android:name=".ui.add.AddTaskActivity"
             android:parentActivityName=".ui.MainActivity">
 
         </activity>

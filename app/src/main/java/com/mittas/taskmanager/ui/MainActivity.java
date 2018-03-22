@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.mittas.taskmanager.R;
+import com.mittas.taskmanager.ui.add.AddTaskActivity;
 import com.mittas.taskmanager.ui.completed.CompletedTasksFragment;
 import com.mittas.taskmanager.ui.pending.PendingTasksFragment;
 
