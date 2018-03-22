@@ -1,6 +1,7 @@
 package com.mittas.taskmanager.ui.completed;
 
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,10 +9,11 @@ import android.widget.TextView;
 
 import com.mittas.taskmanager.R;
 import com.mittas.taskmanager.data.Task;
+import com.mittas.taskmanager.ui.gestures.ItemTouchHelperAdapter;
 
 import java.util.List;
 
-class CompletedTaskAdapter extends RecyclerView.Adapter<CompletedTaskAdapter.ViewHolder> {
+class CompletedTaskAdapter extends RecyclerView.Adapter<CompletedTaskAdapter.ViewHolder> implements ItemTouchHelperAdapter {
 
     private List<Task> taskList;
     private View.OnLongClickListener longClickListener;
@@ -50,6 +52,20 @@ class CompletedTaskAdapter extends RecyclerView.Adapter<CompletedTaskAdapter.Vie
     public void setTasks(List<Task> taskList) {
         this.taskList = taskList;
         notifyDataSetChanged();
+    }
+
+    @Override
+    public void onItemMove(int fromPosition, int toPosition) {
+        // do nothing
+    }
+
+    // Called on swiping
+    @Override
+    public void onItemDismiss(int position, int direction) {
+        // TODO set status pending
+
+        notifyItemRemoved(position);
+
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {

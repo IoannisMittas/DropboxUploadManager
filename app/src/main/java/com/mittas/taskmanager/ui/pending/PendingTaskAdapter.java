@@ -1,6 +1,7 @@
 package com.mittas.taskmanager.ui.pending;
 
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -57,12 +58,21 @@ public class PendingTaskAdapter extends RecyclerView.Adapter<PendingTaskAdapter.
 
     @Override
     public void onItemMove(int fromPosition, int toPosition) {
-
+        // do nothing
     }
 
     // Called on swiping
     @Override
-    public void onItemDismiss(int position) {
+    public void onItemDismiss(int position, int direction) {
+        if(direction == ItemTouchHelper.LEFT) {
+            // TODO postpone task for 1 minute
+        } else if(direction == ItemTouchHelper.RIGHT) {
+            // TODO start task immediately
+        }
+
+        // TODO set status as UPLOADING
+
+        notifyItemRemoved(position);
 
     }
 
