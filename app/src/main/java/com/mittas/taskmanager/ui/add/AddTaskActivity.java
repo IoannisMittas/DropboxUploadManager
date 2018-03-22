@@ -1,8 +1,13 @@
 package com.mittas.taskmanager.ui.add;
 
+import android.Manifest;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -22,6 +27,9 @@ import java.util.regex.Pattern;
 
 
 public class AddTaskActivity extends AppCompatActivity {
+    public static final int PERMISSIONS_REQUEST_CODE = 0;
+    public static final int FILE_PICKER_REQUEST_CODE = 1;
+
     private AddTaskViewModel addTaskViewModel;
     private EditText nameEditText;
     private EditText descriptionEditText;
@@ -101,13 +109,48 @@ public class AddTaskActivity extends AppCompatActivity {
     }
 
     private void startFilePicker() {
+        checkPermissionsAndOpenFilePicker();
+    }
+
+    private void checkPermissionsAndOpenFilePicker() {
+        String permission = Manifest.permission.READ_EXTERNAL_STORAGE;
+
+        if (ContextCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED) {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this, permission)) {
+                showError();
+            } else {
+                ActivityCompat.requestPermissions(this, new String[]{permission}, PERMISSIONS_REQUEST_CODE);
+            }
+        } else {
+            openFilePicker();
+        }
+    }
+
+    private void showError() {
+        Toast.makeText(this, "Allow external storage reading", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           @NonNull String permissions[], @NonNull int[] grantResults) {
+        switch (requestCode) {
+            case PERMISSIONS_REQUEST_CODE: {
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    openFilePicker();
+                } else {
+                    showError();
+                }
+            }
+        }
+    }
+
+    private void openFilePicker() {
         new MaterialFilePicker()
                 .withActivity(this)
-                .withRequestCode(1)
-                .withFilter(Pattern.compile(".*\\.txt$")) // Filtering files and directories by file name using regexp
-                .withFilterDirectories(true) // Set directories filterable (false by default)
-                .withHiddenFiles(true) // Show hidden files and folders
-                .withRootPath()
+                .withRequestCode(FILE_PICKER_REQUEST_CODE)
+                .withHiddenFiles(true)
+                .withTitle("Pick a file")
                 .start();
     }
 
@@ -117,8 +160,6 @@ public class AddTaskActivity extends AppCompatActivity {
 
         if (requestCode == 1 && resultCode == RESULT_OK) {
             filePath = data.getStringExtra(FilePickerActivity.RESULT_FILE_PATH);
-            Toast.makeText(this, "File path ["+filePath+"]", Toast.LENGTH_LONG).show();
-
         }
     }
 
@@ -135,6 +176,5 @@ public class AddTaskActivity extends AppCompatActivity {
 
         return true;
     }
-
 
 }
