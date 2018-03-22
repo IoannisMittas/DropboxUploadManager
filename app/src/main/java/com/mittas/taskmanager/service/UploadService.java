@@ -25,6 +25,7 @@ import java.io.InputStream;
  * Created by John on 22-Mar-18.
  */
 
+/*
 public class UploadService extends Service{
     private static final int ONGOING_NOTIFICATION_ID = 1;
     private final String channel_ID = "my_channel_01";
@@ -111,3 +112,4 @@ public class UploadService extends Service{
     }
 
 }
+*/

@@ -107,6 +107,7 @@ public class AddTaskActivity extends AppCompatActivity {
                 .withFilter(Pattern.compile(".*\\.txt$")) // Filtering files and directories by file name using regexp
                 .withFilterDirectories(true) // Set directories filterable (false by default)
                 .withHiddenFiles(true) // Show hidden files and folders
+                .withRootPath()
                 .start();
     }
 
@@ -116,6 +117,7 @@ public class AddTaskActivity extends AppCompatActivity {
 
         if (requestCode == 1 && resultCode == RESULT_OK) {
             filePath = data.getStringExtra(FilePickerActivity.RESULT_FILE_PATH);
+            Toast.makeText(this, "File path ["+filePath+"]", Toast.LENGTH_LONG).show();
 
         }
     }
