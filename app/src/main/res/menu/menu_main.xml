@@ -3,4 +3,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.mittas.taskmanager.data.MainActivity">
 
+    <item
+        android:id="@+id/action_add_file"
+        android:orderInCategory="300"
+        android:title="User"
+        android:icon="@drawable/ic_favorite"
+        app:showAsAction="ifRoom"></item>
+
 </menu>

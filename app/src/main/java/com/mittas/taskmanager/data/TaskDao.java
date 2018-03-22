@@ -20,10 +20,10 @@ public interface TaskDao {
     @Query("SELECT * FROM Task WHERE id = :id")
     LiveData<List<Task>> getTaskById(int id);
 
-    @Query("SELECT * FROM Task WHERE status = Task.PENDING")
+    @Query("SELECT * FROM Task WHERE status = 'Task.PENDING'")
     LiveData<List<Task>> getPendingTasks();
 
-    @Query("SELECT * FROM Task WHERE status = Task.COMPLETED")
+    @Query("SELECT * FROM Task WHERE status = 'Task.COMPLETED'")
     LiveData<List<Task>> getCompletedTasks();
 
     // TODO query for filepath

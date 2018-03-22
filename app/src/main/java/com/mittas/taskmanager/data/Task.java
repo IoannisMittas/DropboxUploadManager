@@ -51,4 +51,24 @@ public class Task {
     public int getStatus() {
         return status;
     }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setFilePath(String filePath) {
+        this.filePath = filePath;
+    }
+
+    public void setTime(int time) {
+        this.time = time;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
 }

@@ -1,5 +1,6 @@
 package com.mittas.taskmanager.ui;
 
+import android.content.Intent;
 import android.support.design.widget.TabLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -40,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               // TODO open screen 2
+                startActivity(new Intent(MainActivity.this, AddTaskActivity.class));
             }
         });
     }
