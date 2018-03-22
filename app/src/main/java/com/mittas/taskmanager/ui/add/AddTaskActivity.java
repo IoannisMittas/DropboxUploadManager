@@ -21,7 +21,7 @@ public class AddTaskActivity extends AppCompatActivity {
     private AddTaskViewModel addTaskViewModel;
     private EditText nameEditText;
     private EditText descriptionEditText;
-    private String filePath = "mouni";    // TODO temp -------------------------------------------------------
+    private String filePath;
     private Button saveButton;
     private Button cancelButton;
 

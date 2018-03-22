@@ -21,7 +21,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CompletedTasksFragment extends Fragment {
-    private Context context = getActivity();
     private CompletedTaskViewModel viewModel;
     private CompletedTaskAdapter adapter;
     private RecyclerView recyclerView;
@@ -29,15 +28,6 @@ public class CompletedTasksFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
-
-
-
-
-
-
-
     }
 
     @Nullable
@@ -45,32 +35,23 @@ public class CompletedTasksFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_completed_tasks, container, false);
 
-        // TODO
         recyclerView = rootView.findViewById(R.id.recyclerView);
-        adapter = new CompletedTaskAdapter(new ArrayList<Task>(), context);
-        recyclerView.setLayoutManager(new LinearLayoutManager(context));
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+        adapter = new CompletedTaskAdapter(new ArrayList<Task>());
 
         recyclerView.setAdapter(adapter);
 
         viewModel = ViewModelProviders.of(this).get(CompletedTaskViewModel.class);
 
-        viewModel.getCompletedTasks().observe(context, new Observer<List<Task>>() {
+        viewModel.getCompletedTasks().observe(this, new Observer<List<Task>>() {
             @Override
             public void onChanged(@Nullable List<Task> tasks) {
                 adapter.setTasks(tasks);
             }
         });
 
-
-
-
-
         return rootView;
     }
-
-
-
-
-
 
 }
