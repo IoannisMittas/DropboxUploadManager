@@ -6,6 +6,7 @@ import android.arch.persistence.room.Delete;
 import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.Query;
 import android.arch.persistence.room.TypeConverters;
+import android.arch.persistence.room.Update;
 
 import java.util.List;
 
@@ -20,21 +21,23 @@ public interface TaskDao {
     @Query("SELECT * FROM Task WHERE id = :id")
     LiveData<List<Task>> getTaskById(int id);
 
-    @Query("SELECT * FROM Task WHERE status = 'Task.PENDING'")
+    @Query("SELECT * FROM Task WHERE status = 'PENDING' ")
     LiveData<List<Task>> getPendingTasks();
 
-    @Query("SELECT * FROM Task WHERE status = 'Task.COMPLETED'")
+    @Query("SELECT * FROM Task WHERE status = 'COMPLETED'")
     LiveData<List<Task>> getCompletedTasks();
 
-    // TODO fix above queries
+    // TODO fix hardcoded statuses
 
     // TODO query for filepath
 
     // TODO query for time
 
-
     @Insert(onConflict = REPLACE)
     void addTask(Task task);
+
+    @Update
+    void updateTasks(Task... tasks);
 
     @Delete
     void deleteTask(Task task);

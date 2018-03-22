@@ -20,9 +20,14 @@ public class PendingTaskAdapter extends RecyclerView.Adapter<PendingTaskAdapter.
     private List<Task> taskList;
     private View.OnLongClickListener longClickListener;
 
-    public PendingTaskAdapter(List<Task> taskList, View.OnLongClickListener longClickListener) {
+   /* public PendingTaskAdapter(List<Task> taskList, View.OnLongClickListener longClickListener) {
         this.taskList = taskList;
         this.longClickListener = longClickListener;
+    }*/
+
+   // TODO temp
+    public PendingTaskAdapter(List<Task> taskList) {
+        this.taskList = taskList;
     }
 
     @Override
@@ -57,11 +62,6 @@ public class PendingTaskAdapter extends RecyclerView.Adapter<PendingTaskAdapter.
             nameTextView = view.findViewById(R.id.name_textview);
         }
     }
-
-
-
-
-
 
 
 }

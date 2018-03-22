@@ -2,7 +2,6 @@ package com.mittas.taskmanager.ui.completed;
 
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
-import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -14,8 +13,6 @@ import android.view.ViewGroup;
 
 import com.mittas.taskmanager.R;
 import com.mittas.taskmanager.data.Task;
-import com.mittas.taskmanager.ui.MainActivity;
-import com.mittas.taskmanager.viewmodel.CompletedTaskViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,6 +35,7 @@ public class CompletedTasksFragment extends Fragment {
         recyclerView = rootView.findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
+        // TODO temp
         adapter = new CompletedTaskAdapter(new ArrayList<Task>());
 
         recyclerView.setAdapter(adapter);

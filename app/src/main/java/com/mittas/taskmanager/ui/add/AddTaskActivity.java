@@ -14,14 +14,13 @@ import android.widget.Toast;
 
 import com.mittas.taskmanager.R;
 import com.mittas.taskmanager.data.Task;
-import com.mittas.taskmanager.viewmodel.AddTaskViewModel;
 
 
 public class AddTaskActivity extends AppCompatActivity {
     private AddTaskViewModel addTaskViewModel;
     private EditText nameEditText;
     private EditText descriptionEditText;
-    private String filePath;
+    private String filePath = "temp"; // TODO temporary value
     private Button saveButton;
     private Button cancelButton;
 
@@ -62,9 +61,9 @@ public class AddTaskActivity extends AppCompatActivity {
                     addTaskViewModel.addTask(new Task(
                             nameEditText.getText().toString(),
                             descriptionEditText.getText().toString(),
-                            filePath
+                            filePath,
+                            Task.pending
                     ));
-                    // TODO put in pending task
                      finish();
                 }
             }

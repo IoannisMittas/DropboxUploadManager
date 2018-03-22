@@ -1,38 +1,32 @@
-package com.mittas.taskmanager.viewmodel;
+package com.mittas.taskmanager.ui.completed;
 
 import android.app.Application;
 import android.arch.lifecycle.AndroidViewModel;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.ViewModel;
-import android.content.Context;
 
 import com.mittas.taskmanager.data.AppDatabase;
 import com.mittas.taskmanager.data.Task;
 
 import java.util.List;
 
-public class PendingTaskViewModel extends AndroidViewModel {
 
-    private final LiveData<List<Task>> pendingTasks;
+public class CompletedTaskViewModel extends AndroidViewModel {
+
+    private final LiveData<List<Task>> completedTasks;
 
     private AppDatabase appDatabase;
 
-    public PendingTaskViewModel(Application application) {
+    public CompletedTaskViewModel(Application application) {
         super(application);
 
         appDatabase = AppDatabase.getAppDatabase(this.getApplication());
 
-        pendingTasks = appDatabase.taskDao().getPendingTasks();
+        completedTasks = appDatabase.taskDao().getCompletedTasks();
     }
 
-    public LiveData<List<Task>> getPendingTasks() {
-        return pendingTasks;
+    public LiveData<List<Task>> getCompletedTasks() {
+        return completedTasks;
     }
 
 }
-
-
-
-
-
-

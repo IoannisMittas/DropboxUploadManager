@@ -16,9 +16,14 @@ class CompletedTaskAdapter extends RecyclerView.Adapter<CompletedTaskAdapter.Vie
     private List<Task> taskList;
     private View.OnLongClickListener longClickListener;
 
-        public CompletedTaskAdapter(List<Task> taskList, View.OnLongClickListener longClickListener) {
+      /*  public CompletedTaskAdapter(List<Task> taskList, View.OnLongClickListener longClickListener) {
         this.taskList = taskList;
         this.longClickListener = longClickListener;
+    }*/
+
+    // TODO temp
+    public CompletedTaskAdapter(List<Task> taskList) {
+        this.taskList = taskList;
     }
 
     @Override

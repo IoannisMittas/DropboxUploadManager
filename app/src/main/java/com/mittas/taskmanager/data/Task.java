@@ -1,6 +1,7 @@
 package com.mittas.taskmanager.data;
 
 import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
 
 /**
@@ -22,14 +23,18 @@ public class Task {
 
     private int time;
 
-    private int status;
-    private final static int PENDING = 0;
-    private final static int COMPLETED = 1;
+    private String status;
 
-    public Task(String name, String description, String filePath) {
+    @Ignore
+    public static final String pending = "PENDING";
+    @Ignore
+    public static final String completed = "COMPLETED";
+
+    public Task(String name, String description, String filePath, String status) {
         this.name = name;
         this.description = description;
         this.filePath = filePath;
+        this.status = status;
     }
 
     public String getName() {
@@ -48,7 +53,7 @@ public class Task {
         return time;
     }
 
-    public int getStatus() {
+    public String getStatus() {
         return status;
     }
 
@@ -68,7 +73,7 @@ public class Task {
         this.time = time;
     }
 
-    public void setStatus(int status) {
+    public void setStatus(String status) {
         this.status = status;
     }
 }
