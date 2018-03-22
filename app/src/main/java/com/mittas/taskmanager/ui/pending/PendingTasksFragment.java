@@ -13,8 +13,6 @@ import android.view.ViewGroup;
 
 import com.mittas.taskmanager.R;
 import com.mittas.taskmanager.data.Task;
-import com.mittas.taskmanager.ui.completed.CompletedTaskAdapter;
-import com.mittas.taskmanager.ui.completed.CompletedTaskViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,6 +26,7 @@ public class PendingTasksFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
+
 
     @Nullable
     @Override
