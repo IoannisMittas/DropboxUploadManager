@@ -34,6 +34,7 @@ import java.io.InputStream;
 
 public class UploadService extends Service {
     private static final int ONGOING_NOTIFICATION_ID = 1;
+    private static final String GROUP_KEY_TASKS = "NotificationgroupKeyTasks";
     private NotificationChannel channel;
     private final String channel_ID = "my_channel_01";
 
@@ -44,6 +45,7 @@ public class UploadService extends Service {
     public static final String TASK_ID = "taskId";
     public static final String TASKNAME = "taskname";
     public static final String FILEPATH = "filepath";
+    public static final String HAS_DELAY = "hasDelay";
     public static final String TIME = "time";
     public static final String RESULT = "result";
     public static final String NOTIFICATION = "com.mittas.taskmanager.service.receiver";
@@ -69,12 +71,22 @@ public class UploadService extends Service {
 
         final int taskId = intent.getIntExtra(TASK_ID, -1);
 
+        final boolean hasDelay = intent.getBooleanExtra(UploadService.HAS_DELAY, false);
+
         client =  new DbxClientV2(new DbxRequestConfig("task_manager", "en_US"), BuildConfig.DROPBOX_ACCESS_TOKEN);
 
         new Thread() {
             @Override
             public void run() {
                 long tStart = System.currentTimeMillis();
+
+                if(hasDelay) {
+                    try {
+                        Thread.sleep(60000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
 
                 uploadFile(filePath);
 
@@ -130,6 +142,7 @@ public class UploadService extends Service {
                 .setContentText(getText(R.string.notification_message))
                 .setSmallIcon(R.mipmap.ic_launcher)
                 .setContentIntent(pendingIntent)
+                .setGroup(GROUP_KEY_TASKS)
                 .build();
     }
 

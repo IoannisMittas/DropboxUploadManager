@@ -109,21 +109,21 @@ public class PendingTasksFragment extends Fragment implements PendingTaskAdapter
     @Override
     public void onSwipeTaskCallback(Task task, int direction) {
         if (direction == ItemTouchHelper.LEFT) { // Postpone task for 1 minute
-
-
+            doStartUploadService(task, true);
         } else if (direction == ItemTouchHelper.RIGHT) { // Start task immediately
-            doStartUploadService(task);
+            doStartUploadService(task, false);
         }
 
         task.setStatus(Task.uploading);
         viewModel.updateTasks(task);
     }
 
-    public void doStartUploadService(Task task) {
+    public void doStartUploadService(Task task, boolean hasDelay) {
         Intent intent = new Intent(getActivity(), UploadService.class);
         intent.putExtra(UploadService.TASK_ID, task.getId());
         intent.putExtra(UploadService.TASKNAME, task.getName());
         intent.putExtra(UploadService.FILEPATH, task.getFilePath());
+        intent.putExtra(UploadService.HAS_DELAY, hasDelay);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             getActivity().startForegroundService(intent);
