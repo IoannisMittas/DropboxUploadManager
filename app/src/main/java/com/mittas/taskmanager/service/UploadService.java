@@ -22,6 +22,7 @@ import com.dropbox.core.v2.files.WriteMode;
 import com.mittas.taskmanager.BuildConfig;
 import com.mittas.taskmanager.R;
 import com.mittas.taskmanager.ui.MainActivity;
+import com.mittas.taskmanager.ui.upload.DropboxClientFactory;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -37,8 +38,6 @@ public class UploadService extends Service {
     private static final String GROUP_KEY_TASKS = "NotificationgroupKeyTasks";
     private NotificationChannel channel;
     private final String channel_ID = "my_channel_01";
-
-    private DbxClientV2 client ;
 
     private int result = Activity.RESULT_CANCELED;
 
@@ -58,7 +57,6 @@ public class UploadService extends Service {
 
     @Override
     public void onCreate() {
-
     }
 
     @Override
@@ -72,9 +70,7 @@ public class UploadService extends Service {
         final int taskId = intent.getIntExtra(TASK_ID, -1);
 
         final boolean hasDelay = intent.getBooleanExtra(UploadService.HAS_DELAY, false);
-
-        client =  new DbxClientV2(new DbxRequestConfig("task_manager", "en_US"), BuildConfig.DROPBOX_ACCESS_TOKEN);
-
+        
         new Thread() {
             @Override
             public void run() {
@@ -111,6 +107,8 @@ public class UploadService extends Service {
 
     private void uploadFile(String filePath) {
         File file = new File(filePath);
+
+        DbxClientV2 client = DropboxClientFactory.getClient();
 
         try (InputStream inputStream = new FileInputStream(file)) {
              client.files().uploadBuilder(filePath)

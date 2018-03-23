@@ -50,6 +50,8 @@ dependencies {
     // Dropbox
     compile 'com.dropbox.core:dropbox-core-sdk:3.0.6'
 
+    implementation 'com.squareup.okhttp3:okhttp:3.10.0'
+
     // Material File Picker
     repositories {
         maven {

@@ -6,6 +6,8 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -18,15 +20,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.dropbox.core.android.Auth;
 import com.mittas.taskmanager.R;
 import com.mittas.taskmanager.data.Task;
 import com.mittas.taskmanager.service.UploadService;
 import com.mittas.taskmanager.ui.gestures.SimpleItemTouchHelperCallback;
+import com.mittas.taskmanager.ui.upload.DropboxClientFactory;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static android.app.Activity.RESULT_OK;
+import static android.content.Context.MODE_PRIVATE;
 
 public class PendingTasksFragment extends Fragment implements PendingTaskAdapter.AdapterCallback, View.OnLongClickListener {
     private PendingTaskViewModel viewModel;
@@ -64,7 +69,11 @@ public class PendingTasksFragment extends Fragment implements PendingTaskAdapter
 
         getActivity().registerReceiver(receiver, new IntentFilter(
                 UploadService.NOTIFICATION));
+
     }
+
+
+
 
     @Nullable
     @Override
