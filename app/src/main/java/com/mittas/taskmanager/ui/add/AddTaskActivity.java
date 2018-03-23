@@ -67,7 +67,7 @@ public class AddTaskActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 // name and filepath can't be empty
-                if (isEditTextEmpty(nameEditText) || isStringEmpty(filePath)) {
+                if (isEditTextEmpty(nameEditText) || (filePath == null)) {
                     Toast.makeText(AddTaskActivity.this, "You need to write a name and choose a file",
                             Toast.LENGTH_SHORT).show();
                 } else {

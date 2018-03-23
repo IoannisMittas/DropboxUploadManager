@@ -6,6 +6,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -46,6 +47,7 @@ public class PendingTasksFragment extends Fragment implements PendingTaskAdapter
                     Task completedTask = viewModel.getTaskById(taskId);
                     completedTask.setStatus(Task.completed);
                     completedTask.setTime((int) time);
+                    viewModel.updateTasks(completedTask);
                 } else {
                     // TODO handle failed upload
                 }
@@ -106,20 +108,30 @@ public class PendingTasksFragment extends Fragment implements PendingTaskAdapter
         getActivity().unregisterReceiver(receiver);
     }
 
-
     @Override
     public void onSwipeTaskCallback(Task task, int direction) {
-        if (direction == ItemTouchHelper.LEFT) {
-            // TODO postpone task for 1 minute
-
-        } else if (direction == ItemTouchHelper.RIGHT) {
+        if (direction == ItemTouchHelper.LEFT) { // Postpone task for 1 minute
 
 
-            // TODO start task immediately
+        } else if (direction == ItemTouchHelper.RIGHT) { // Start task immediately
+            doStartUploadService(task);
         }
 
         task.setStatus(Task.uploading);
         viewModel.updateTasks(task);
+    }
+
+    public void doStartUploadService(Task task) {
+        Intent intent = new Intent(getActivity(), UploadService.class);
+        intent.putExtra(UploadService.TASK_ID, task.getId());
+        intent.putExtra(UploadService.TASKNAME, task.getName());
+        intent.putExtra(UploadService.FILEPATH, task.getFilePath());
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            getActivity().startForegroundService(intent);
+        } else {
+            getActivity().startService(intent);
+        }
     }
 
     @Override

@@ -19,7 +19,7 @@ public interface TaskDao {
     LiveData<List<Task>> getAllTasks();
 
     @Query("SELECT * FROM Task WHERE id = :id")
-    Task getTaskById(int id);
+    Task getSingleTaskById(int id);
 
     @Query("SELECT * FROM Task WHERE status = 'PENDING' ")
     LiveData<List<Task>> getPendingTasks();

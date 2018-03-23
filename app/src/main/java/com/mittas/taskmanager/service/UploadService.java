@@ -8,14 +8,17 @@ import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Binder;
 import android.os.Build;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.support.v4.app.NotificationCompat;
 
-import com.cloudrail.si.interfaces.CloudStorage;
-import com.cloudrail.si.services.Dropbox;
+import com.dropbox.core.DbxException;
+import com.dropbox.core.DbxRequestConfig;
+import com.dropbox.core.v2.DbxClientV2;
+import com.dropbox.core.v2.files.WriteMode;
 import com.mittas.taskmanager.BuildConfig;
 import com.mittas.taskmanager.R;
 import com.mittas.taskmanager.ui.MainActivity;
@@ -31,8 +34,9 @@ import java.io.InputStream;
 
 public class UploadService extends Service {
     private static final int ONGOING_NOTIFICATION_ID = 1;
-    private final String channel_ID = "my_channel_01";
     private NotificationChannel channel;
+    private DbxClientV2 client ;
+    private final String channel_ID = "my_channel_01";
     private int result = Activity.RESULT_CANCELED;
     public static final String TASK_ID = "taskId";
     public static final String TASKNAME = "taskname";
@@ -40,7 +44,6 @@ public class UploadService extends Service {
     public static final String TIME = "time";
     public static final String RESULT = "result";
     public static final String NOTIFICATION = "com.mittas.taskmanager.service.receiver";
-
 
     @Nullable
     @Override
@@ -50,6 +53,8 @@ public class UploadService extends Service {
 
     @Override
     public void onCreate() {
+
+        client =  new DbxClientV2(new DbxRequestConfig("task_manager", "en_US"), BuildConfig.DROPBOX_ACCESS_TOKEN);
 
     }
 
@@ -90,26 +95,15 @@ public class UploadService extends Service {
     }
 
     private void uploadFile(String filePath) {
-        final CloudStorage cloudStorage = getDropBoxStorage();
+        File file = new File(filePath);
 
-        // Get asset
-        InputStream is;
-        try {
-            File f = new File(filePath);
-            String name = f.getName();
-            is = new FileInputStream(f);
-            long size = f.length();
-            cloudStorage.upload("/" + name, is, size, true);
-        } catch (IOException ioe) {
-            ioe.printStackTrace();
+        try (InputStream inputStream = new FileInputStream(file)) {
+             client.files().uploadBuilder(filePath)
+                    .withMode(WriteMode.OVERWRITE)
+                    .uploadAndFinish(inputStream);
+        } catch (DbxException | IOException e) {
+            // handle exception
         }
-    }
-
-    private CloudStorage getDropBoxStorage() {
-        CloudStorage cloudStorage = new Dropbox(this,
-                BuildConfig.DROPBOX_APP_KEY,
-                BuildConfig.DROPBOX_APP_SECRET);
-        return cloudStorage;
     }
 
     private void publishResults(int taskId, long time, int result) {

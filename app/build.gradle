@@ -23,6 +23,7 @@ android {
     buildTypes.each {
         it.buildConfigField('String', 'DROPBOX_APP_KEY', keystoreProperties['DropboxAppKey'])
         it.buildConfigField('String', 'DROPBOX_APP_SECRET', keystoreProperties['DropboxAppSecret'])
+        it.buildConfigField('String', 'DROPBOX_ACCESS_TOKEN', keystoreProperties['DropboxAccessToken'])
     }
 }
 
@@ -46,8 +47,8 @@ dependencies {
     // RecyclerView
     implementation 'com.android.support:recyclerview-v7:27.1.0'
 
-    // Cloud API
-    compile 'com.cloudrail:cloudrail-si-android:2.17.1'
+    // Dropbox
+    compile 'com.dropbox.core:dropbox-core-sdk:3.0.6'
 
     // Material File Picker
     repositories {

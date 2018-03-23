@@ -18,7 +18,6 @@ import com.mittas.taskmanager.ui.completed.CompletedTasksFragment;
 import com.mittas.taskmanager.ui.pending.PendingTasksFragment;
 
 public class MainActivity extends AppCompatActivity {
-
     private FragmentsPagerAdapter fragmentsPagerAdapter;
     private ViewPager viewPager;
 
@@ -70,5 +69,4 @@ public class MainActivity extends AppCompatActivity {
             return 2;
         }
     }
-
 }
