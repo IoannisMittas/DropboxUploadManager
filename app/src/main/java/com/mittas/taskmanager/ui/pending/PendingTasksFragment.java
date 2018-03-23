@@ -5,6 +5,7 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -15,12 +16,10 @@ import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.mittas.taskmanager.R;
 import com.mittas.taskmanager.data.Task;
 import com.mittas.taskmanager.service.UploadService;
-import com.mittas.taskmanager.ui.MainActivity;
 import com.mittas.taskmanager.ui.gestures.SimpleItemTouchHelperCallback;
 
 import java.util.ArrayList;
@@ -37,13 +36,18 @@ public class PendingTasksFragment extends Fragment implements PendingTaskAdapter
         @Override
         public void onReceive(Context context, Intent intent) {
             Bundle bundle = intent.getExtras();
+
             if (bundle != null) {
+                int taskId = intent.getIntExtra(UploadService.TASK_ID, -1);
                 long time = bundle.getLong(UploadService.TIME);
                 int resultCode = bundle.getInt(UploadService.RESULT);
+
                 if (resultCode == RESULT_OK) {
-                    // succesful upload
+                    Task completedTask = viewModel.getTaskById(taskId);
+                    completedTask.setStatus(Task.completed);
+                    completedTask.setTime((int) time);
                 } else {
-                    // failed upload
+                    // TODO handle failed upload
                 }
             }
         }
@@ -88,6 +92,20 @@ public class PendingTasksFragment extends Fragment implements PendingTaskAdapter
 
         return rootView;
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        getActivity().registerReceiver(receiver, new IntentFilter(
+                UploadService.NOTIFICATION));
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        getActivity().unregisterReceiver(receiver);
+    }
+
 
     @Override
     public void onSwipeTaskCallback(Task task, int direction) {

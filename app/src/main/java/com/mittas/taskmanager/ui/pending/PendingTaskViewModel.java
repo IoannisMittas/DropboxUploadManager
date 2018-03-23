@@ -22,10 +22,15 @@ public class PendingTaskViewModel extends AndroidViewModel {
         appDatabase = AppDatabase.getAppDatabase(this.getApplication());
 
         pendingTasks = appDatabase.taskDao().getPendingTasks();
+
     }
 
     public LiveData<List<Task>> getPendingTasks() {
         return pendingTasks;
+    }
+
+    public Task getTaskById(int id) {
+        return appDatabase.taskDao().getTaskById(id);
     }
 
     public void updateTasks(final Task task) {

@@ -19,7 +19,7 @@ public interface TaskDao {
     LiveData<List<Task>> getAllTasks();
 
     @Query("SELECT * FROM Task WHERE id = :id")
-    LiveData<List<Task>> getTaskById(int id);
+    Task getTaskById(int id);
 
     @Query("SELECT * FROM Task WHERE status = 'PENDING' ")
     LiveData<List<Task>> getPendingTasks();
@@ -28,10 +28,6 @@ public interface TaskDao {
     LiveData<List<Task>> getCompletedTasks();
 
     // TODO fix hardcoded statuses
-
-    // TODO query for filepath
-
-    // TODO query for time
 
     @Insert(onConflict = REPLACE)
     void addTask(Task task);

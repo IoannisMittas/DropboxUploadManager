@@ -30,14 +30,17 @@ import java.io.InputStream;
  */
 
 public class UploadService extends Service {
-    public static final String TASKNAME = "taskname";
-    public static final String FILEPATH = "filepath";
-    public static final String TIME = "time";
-    public static final String RESULT = "result";
     private static final int ONGOING_NOTIFICATION_ID = 1;
     private final String channel_ID = "my_channel_01";
     private NotificationChannel channel;
     private int result = Activity.RESULT_CANCELED;
+    public static final String TASK_ID = "taskId";
+    public static final String TASKNAME = "taskname";
+    public static final String FILEPATH = "filepath";
+    public static final String TIME = "time";
+    public static final String RESULT = "result";
+    public static final String NOTIFICATION = "com.mittas.taskmanager.service.receiver";
+
 
     @Nullable
     @Override
@@ -58,6 +61,8 @@ public class UploadService extends Service {
 
         final String filePath = intent.getStringExtra(FILEPATH);
 
+        final int taskId = intent.getIntExtra(TASK_ID, -1);
+
         new Thread() {
             @Override
             public void run() {
@@ -72,7 +77,7 @@ public class UploadService extends Service {
                 // successfully finished
                 result = Activity.RESULT_OK;
 
-                publishResults(time, result);
+                publishResults(taskId, time, result);
             }
         }.start();
 
@@ -107,8 +112,9 @@ public class UploadService extends Service {
         return cloudStorage;
     }
 
-    private void publishResults(long time, int result) {
+    private void publishResults(int taskId, long time, int result) {
         Intent intent = new Intent();
+        intent.putExtra(TASK_ID, taskId);
         intent.putExtra(TIME, time);
         intent.putExtra(RESULT, result);
         sendBroadcast(intent);
