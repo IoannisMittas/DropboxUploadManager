@@ -14,4 +14,8 @@
     <string name="button_save">Save</string>
     <string name="button_cancel">Cancel</string>
 
+    <string name="notification_message">Uploading</string>
+    <string name="channel_name">channel 1</string>
+    <string name="channel_description">notification channel</string>
+
 </resources>

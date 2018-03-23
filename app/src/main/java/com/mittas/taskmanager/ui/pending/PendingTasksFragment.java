@@ -2,6 +2,9 @@ package com.mittas.taskmanager.ui.pending;
 
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -12,18 +15,39 @@ import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.mittas.taskmanager.R;
 import com.mittas.taskmanager.data.Task;
+import com.mittas.taskmanager.service.UploadService;
+import com.mittas.taskmanager.ui.MainActivity;
 import com.mittas.taskmanager.ui.gestures.SimpleItemTouchHelperCallback;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class PendingTasksFragment extends Fragment implements PendingTaskAdapter.AdapterCallback, View.OnLongClickListener  {
+import static android.app.Activity.RESULT_OK;
+
+public class PendingTasksFragment extends Fragment implements PendingTaskAdapter.AdapterCallback, View.OnLongClickListener {
     private PendingTaskViewModel viewModel;
     private PendingTaskAdapter adapter;
     private RecyclerView recyclerView;
+
+    private BroadcastReceiver receiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            Bundle bundle = intent.getExtras();
+            if (bundle != null) {
+                long time = bundle.getLong(UploadService.TIME);
+                int resultCode = bundle.getInt(UploadService.RESULT);
+                if (resultCode == RESULT_OK) {
+                    // succesful upload
+                } else {
+                    // failed upload
+                }
+            }
+        }
+    };
 
 
     @Override
@@ -67,10 +91,12 @@ public class PendingTasksFragment extends Fragment implements PendingTaskAdapter
 
     @Override
     public void onSwipeTaskCallback(Task task, int direction) {
-        if(direction == ItemTouchHelper.LEFT) {
+        if (direction == ItemTouchHelper.LEFT) {
             // TODO postpone task for 1 minute
 
-        } else if(direction == ItemTouchHelper.RIGHT) {
+        } else if (direction == ItemTouchHelper.RIGHT) {
+
+
             // TODO start task immediately
         }
 
@@ -81,7 +107,7 @@ public class PendingTasksFragment extends Fragment implements PendingTaskAdapter
     @Override
     public boolean onLongClick(View v) {
         Task task = (Task) v.getTag();
-       // TODO open edit screen
+        // TODO open edit screen
         return true;
     }
 

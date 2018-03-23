@@ -1,5 +1,6 @@
 package com.mittas.taskmanager.service;
 
+import android.app.Activity;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -13,6 +14,9 @@ import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.support.v4.app.NotificationCompat;
 
+import com.cloudrail.si.interfaces.CloudStorage;
+import com.cloudrail.si.services.Dropbox;
+import com.mittas.taskmanager.BuildConfig;
 import com.mittas.taskmanager.R;
 import com.mittas.taskmanager.ui.MainActivity;
 
@@ -25,11 +29,15 @@ import java.io.InputStream;
  * Created by John on 22-Mar-18.
  */
 
-/*
-public class UploadService extends Service{
+public class UploadService extends Service {
+    public static final String TASKNAME = "taskname";
+    public static final String FILEPATH = "filepath";
+    public static final String TIME = "time";
+    public static final String RESULT = "result";
     private static final int ONGOING_NOTIFICATION_ID = 1;
     private final String channel_ID = "my_channel_01";
     private NotificationChannel channel;
+    private int result = Activity.RESULT_CANCELED;
 
     @Nullable
     @Override
@@ -44,25 +52,27 @@ public class UploadService extends Service{
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        Notification notification = createNotification();
+        String taskName = intent.getStringExtra(TASKNAME);
+        Notification notification = createNotification(taskName);
         startForeground(ONGOING_NOTIFICATION_ID, notification);
+
+        final String filePath = intent.getStringExtra(FILEPATH);
 
         new Thread() {
             @Override
             public void run() {
-                // Get asset
-                InputStream is;
-                try {
-                    File f = new File(path);
-                    String name = f.getName();
-                    is = new FileInputStream(f);
-                    long size = f.length();
-                    System.out.println("IS ["+is+"] - Size ["+size+"]");
-                    cs.upload("/" + name, is, size, true);
-                }
-                catch(IOException ioe) {
-                    ioe.printStackTrace();
-                }
+                long tStart = System.currentTimeMillis();
+
+                uploadFile(filePath);
+
+                long tEnd = System.currentTimeMillis();
+
+                long time = tEnd - tStart;
+
+                // successfully finished
+                result = Activity.RESULT_OK;
+
+                publishResults(time, result);
             }
         }.start();
 
@@ -74,7 +84,38 @@ public class UploadService extends Service{
 
     }
 
-    private Notification createNotification() {
+    private void uploadFile(String filePath) {
+        final CloudStorage cloudStorage = getDropBoxStorage();
+
+        // Get asset
+        InputStream is;
+        try {
+            File f = new File(filePath);
+            String name = f.getName();
+            is = new FileInputStream(f);
+            long size = f.length();
+            cloudStorage.upload("/" + name, is, size, true);
+        } catch (IOException ioe) {
+            ioe.printStackTrace();
+        }
+    }
+
+    private CloudStorage getDropBoxStorage() {
+        CloudStorage cloudStorage = new Dropbox(this,
+                BuildConfig.DROPBOX_APP_KEY,
+                BuildConfig.DROPBOX_APP_SECRET);
+        return cloudStorage;
+    }
+
+    private void publishResults(long time, int result) {
+        Intent intent = new Intent();
+        intent.putExtra(TIME, time);
+        intent.putExtra(RESULT, result);
+        sendBroadcast(intent);
+    }
+
+
+    private Notification createNotification(String taskName) {
         Intent notificationIntent = new Intent(this, MainActivity.class);
         PendingIntent pendingIntent =
                 PendingIntent.getActivity(this, 0, notificationIntent, 0);
@@ -82,7 +123,7 @@ public class UploadService extends Service{
         doCreateNotificationChannel();
 
         return new NotificationCompat.Builder(this, channel_ID)
-                .setContentTitle(getText(R.string.notification_title))
+                .setContentTitle(taskName)
                 .setContentText(getText(R.string.notification_message))
                 .setSmallIcon(R.mipmap.ic_launcher)
                 .setContentIntent(pendingIntent)
@@ -111,5 +152,5 @@ public class UploadService extends Service{
         mNotificationManager.createNotificationChannel(channel);
     }
 
+
 }
-*/
