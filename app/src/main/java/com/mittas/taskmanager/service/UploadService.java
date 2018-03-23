@@ -35,9 +35,12 @@ import java.io.InputStream;
 public class UploadService extends Service {
     private static final int ONGOING_NOTIFICATION_ID = 1;
     private NotificationChannel channel;
-    private DbxClientV2 client ;
     private final String channel_ID = "my_channel_01";
+
+    private DbxClientV2 client ;
+
     private int result = Activity.RESULT_CANCELED;
+
     public static final String TASK_ID = "taskId";
     public static final String TASKNAME = "taskname";
     public static final String FILEPATH = "filepath";
@@ -54,8 +57,6 @@ public class UploadService extends Service {
     @Override
     public void onCreate() {
 
-        client =  new DbxClientV2(new DbxRequestConfig("task_manager", "en_US"), BuildConfig.DROPBOX_ACCESS_TOKEN);
-
     }
 
     @Override
@@ -67,6 +68,8 @@ public class UploadService extends Service {
         final String filePath = intent.getStringExtra(FILEPATH);
 
         final int taskId = intent.getIntExtra(TASK_ID, -1);
+
+        client =  new DbxClientV2(new DbxRequestConfig("task_manager", "en_US"), BuildConfig.DROPBOX_ACCESS_TOKEN);
 
         new Thread() {
             @Override
@@ -107,7 +110,7 @@ public class UploadService extends Service {
     }
 
     private void publishResults(int taskId, long time, int result) {
-        Intent intent = new Intent();
+        Intent intent = new Intent(NOTIFICATION);
         intent.putExtra(TASK_ID, taskId);
         intent.putExtra(TIME, time);
         intent.putExtra(RESULT, result);

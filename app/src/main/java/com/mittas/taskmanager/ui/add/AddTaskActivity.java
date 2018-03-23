@@ -58,7 +58,6 @@ public class AddTaskActivity extends AppCompatActivity {
 
         nameEditText = findViewById(R.id.textInput_name);
         descriptionEditText = findViewById(R.id.textInput_description);
-        // TODO filepath from below
         saveButton = findViewById(R.id.button_save);
         cancelButton = findViewById(R.id.button_cancel);
 
@@ -165,13 +164,6 @@ public class AddTaskActivity extends AppCompatActivity {
 
     private boolean isEditTextEmpty(EditText etText) {
         if (etText.getText().toString().trim().length() > 0)
-            return false;
-
-        return true;
-    }
-
-    private boolean isStringEmpty(String text) {
-        if (text.trim().length() > 0)
             return false;
 
         return true;

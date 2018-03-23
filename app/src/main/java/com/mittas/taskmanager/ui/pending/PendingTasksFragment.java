@@ -61,6 +61,9 @@ public class PendingTasksFragment extends Fragment implements PendingTaskAdapter
         super.onCreate(savedInstanceState);
 
         viewModel = ViewModelProviders.of(this).get(PendingTaskViewModel.class);
+
+        getActivity().registerReceiver(receiver, new IntentFilter(
+                UploadService.NOTIFICATION));
     }
 
     @Nullable
@@ -95,16 +98,11 @@ public class PendingTasksFragment extends Fragment implements PendingTaskAdapter
         return rootView;
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        getActivity().registerReceiver(receiver, new IntentFilter(
-                UploadService.NOTIFICATION));
-    }
+
 
     @Override
-    public void onPause() {
-        super.onPause();
+    public void onDestroy() {
+        super.onDestroy();
         getActivity().unregisterReceiver(receiver);
     }
 

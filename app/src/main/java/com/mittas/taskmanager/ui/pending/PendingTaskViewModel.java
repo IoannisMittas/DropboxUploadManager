@@ -30,7 +30,7 @@ public class PendingTaskViewModel extends AndroidViewModel {
     }
 
     public Task getTaskById(int id) {
-        return appDatabase.taskDao().getSingleTaskById(id);
+        return appDatabase.taskDao().getTaskById(id);
     }
 
     public void updateTasks(final Task task) {
