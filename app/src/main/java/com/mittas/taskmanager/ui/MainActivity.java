@@ -33,10 +33,13 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_main);
 
-        Auth.startOAuth2Authentication(MainActivity.this, BuildConfig.DROPBOX_APP_KEY);
+        SharedPreferences prefs = getApplicationContext().getSharedPreferences("MyPref", MODE_PRIVATE);
+        String accessToken = prefs.getString("access-token", null);
+        if (accessToken == null && savedInstanceState == null) {
+            Auth.startOAuth2Authentication(MainActivity.this, BuildConfig.DROPBOX_APP_KEY);
+        }
 
         fragmentsPagerAdapter = new FragmentsPagerAdapter(getSupportFragmentManager());
 
