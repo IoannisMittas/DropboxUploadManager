@@ -11,7 +11,11 @@ import com.mittas.taskmanager.data.Task;
 import com.mittas.taskmanager.ui.gestures.ItemTouchHelperAdapter;
 
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+
+import static java.lang.String.format;
 
 class CompletedTaskAdapter extends RecyclerView.Adapter<CompletedTaskAdapter.ViewHolder> implements ItemTouchHelperAdapter {
 
@@ -41,7 +45,8 @@ class CompletedTaskAdapter extends RecyclerView.Adapter<CompletedTaskAdapter.Vie
         Task task = taskList.get(position);
         holder.nameTextView.setText(task.getName());
         //TODO convert millis to nice format
-        //holder.timeTextView.setText(task.getBorrowDate().toLocaleString().substring(0, 11));
+        String time = getFormattedTime(task.getTime());
+        holder.timeTextView.setText(time);
         holder.itemView.setTag(task);
         holder.itemView.setOnLongClickListener(longClickListener);
     }
@@ -49,6 +54,10 @@ class CompletedTaskAdapter extends RecyclerView.Adapter<CompletedTaskAdapter.Vie
     @Override
     public int getItemCount() {
         return taskList.size();
+    }
+
+    private String getFormattedTime(int time) {
+        return (new SimpleDateFormat("mm:ss:SSS")).format(new Date(time));
     }
 
     public void setTasks(List<Task> taskList) {
